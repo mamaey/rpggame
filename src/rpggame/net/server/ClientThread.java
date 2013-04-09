@@ -14,7 +14,7 @@ import javax.xml.bind.JAXBException;
 import rpggame.models.Messages;
 import rpggame.models.Connection;
 import rpggame.models.Login;
-import rpggame.models.Xml;
+import rpggame.net.Xml;
 
 public class ClientThread extends Thread{
     private Socket s;

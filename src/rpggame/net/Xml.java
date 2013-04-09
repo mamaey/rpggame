@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package rpggame.models;
+package rpggame.net;
 
 
 import java.io.OutputStream;

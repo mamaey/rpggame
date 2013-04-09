@@ -14,7 +14,7 @@ import javax.xml.bind.JAXBException;
 
 import rpggame.models.Connection;
 import rpggame.models.Login;
-import rpggame.models.Xml;
+import rpggame.net.Xml;
 
 public class Client extends Thread{
     final static double VERSION=0.0001;
