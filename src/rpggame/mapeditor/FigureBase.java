@@ -4,7 +4,6 @@
  */
 package rpggame.mapeditor;
 
-import static rpggame.mapeditor.FigureBase.MAXLIVE;
 
 /**
  *
@@ -15,15 +14,15 @@ import static rpggame.mapeditor.FigureBase.MAXLIVE;
 
 
 public class FigureBase {
-    final static double MAXLIVE = 100.0;
+    final static double MAXHEALTH = 100.0;
     private int x,y;
-    private double live;
+    private double health;
     private FigureType figureType;
     
     public void FigureBase (int x, int y) {
         this.x = x;
         this.y = y;
-        this.live = MAXLIVE;
+        this.health = MAXHEALTH;
     }
     
     public int getX() {
@@ -39,12 +38,12 @@ public class FigureBase {
         this.y = y;
     }
     
-    public double getLive() {
-        return live;
+    public double getHealth() {
+        return health;
     }
     
-    public void setLive(double live) {
-        this.live = live;
+    public void setHealth(double health) {
+        this.health = health;
     }
        
     
