@@ -4,6 +4,7 @@
  */
 package rpggame.mapeditor;
 
+
 /**
  *
  * @author Andre
@@ -15,8 +16,9 @@ public class Figure extends FigureBase {
     }
     
     public void move(int x, int y) { //teleport
-        setXY(x,y);        
+        setXY(x,y);
     }
+                
     
     public void move(int direction) { 
         int x, y;
