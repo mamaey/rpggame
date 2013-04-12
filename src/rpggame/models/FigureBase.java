@@ -4,6 +4,10 @@
  */
 package rpggame.models;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 
 /**
  *
@@ -12,7 +16,7 @@ package rpggame.models;
 
 
 
-
+@XmlRootElement
 public class FigureBase {
     final static double MAXHEALTH = 100.0;
     private int x,y;
@@ -32,7 +36,7 @@ public class FigureBase {
     public Map getMap() {
         return map;
     }
-
+    @XmlElement
     public void setMap(Map map) {
         this.map = map;
     }
@@ -40,10 +44,21 @@ public class FigureBase {
     public int getX() {
         return x;
     }
+
+    @XmlAttribute
+    public void setX(int x) {
+        this.x = x;
+    }
     
     public int getY() {
         return y;
+    
     }
+    @XmlAttribute
+    public void setY(int y) {
+        this.y = y;
+    }
+    
     
     public void setXY(int x, int y) {
         this.x = x;
@@ -54,8 +69,14 @@ public class FigureBase {
         return health;
     }
     
+    @XmlAttribute
     public void setHealth(double health) {
         this.health = health;
+    }
+    
+    @XmlAttribute
+    public void setFigureType(FigureType figureType) {
+        this.figureType = figureType;
     }
        
     

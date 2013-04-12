@@ -5,11 +5,14 @@
 package rpggame.models;
 
 import java.awt.Color;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Andre
  */
+@XmlRootElement
 public class Dot {
     private int length, height;
     private Color colour;
@@ -21,10 +24,22 @@ public class Dot {
         this.colour = colour;
         this.dotType = dotType;
     }
+    public Dot(){
+    }
     
     
     public int getLength () {
         return length;
+    }
+    
+    @XmlAttribute
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    
+    @XmlAttribute
+    public void setLength(int length){
+        this.length=length;
     }
     
     public int getHeight () {
@@ -34,15 +49,16 @@ public class Dot {
     public Color getColour () {
         return colour;
     }
-    
+    @XmlAttribute
     public void setColour(Color colour) {
         this.colour = colour;
     }
     
     public DotType getDotType () {
         return dotType;
-    }
     
+    }
+    @XmlAttribute
     public void setDotType(DotType dotType) {
         this.dotType = dotType;
     }

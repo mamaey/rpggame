@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import rpggame.models.User;
 
 /**
  *
@@ -28,13 +29,14 @@ public class GameClient extends MainClient{
     public static void main(String[] args){
         try {
             GameClient c = new GameClient();
-            if(c.login("martin","mueller")!=null){
+            User user = c.login("martin","mueller");
+            if(user!=null){
                 System.out.println("Login erfolgreich!");
+                System.out.println(user.getMap());
+                System.out.println(user.getX());
+                System.out.println(user.getY());
             }
             c.logout();
-            if(c.login("martin","amueller")==null){
-                System.out.println("Login nicht möglich");
-            }
             c.disconnect();
         } catch (UnknownHostException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);

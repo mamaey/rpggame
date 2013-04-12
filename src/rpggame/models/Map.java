@@ -5,11 +5,15 @@
 package rpggame.models;
 
 import java.awt.Color;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Andre
  */
+@XmlRootElement
 public class Map {
     Dot[][] map;
     int id;
@@ -35,6 +39,7 @@ public class Map {
         this.dotHeight = dotHeight;
         map = new Dot[mapLength][mapHeight];
     }
+    @XmlAttribute
     public void setId(int id) {
         this.id = id;
     }
@@ -42,7 +47,8 @@ public class Map {
     public int getId() {
         return id;
     }
-
+    
+    @XmlAttribute
     public void setName(String name) {
         this.name = name;
     }
@@ -66,8 +72,30 @@ public class Map {
         return dotHeight;
     }
 
+    @XmlAttribute
+    public void setDotHeight(int dotHeight) {
+        this.dotHeight = dotHeight;
+    }
+    
+
     public int getDotLength() {
         return dotLength;
+    }
+
+    @XmlAttribute
+    public void setDotLength(int dotLength) {
+        this.dotLength = dotLength;
+    }
+    
+    @XmlElement
+    public void setMap(Dot[][] map) {
+        this.mapLength = map.length;
+        this.mapHeight = map[0].length;
+        this.map = map;
+    }
+
+    public Dot[][] getMap() {
+        return map;
     }
     
     

@@ -4,6 +4,7 @@
  */
 package rpggame.models;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import rpggame.models.DirectionType;
 
 
