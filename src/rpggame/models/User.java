@@ -19,7 +19,7 @@ public class User extends Figure{
     public User(String name, String password, Map map, int x, int y) {
         super(map, x, y);
         this.name = name;
-        this.password = password;
+        this.password = cryptPassword(password);
     }
     public User(){
     }
@@ -29,7 +29,7 @@ public class User extends Figure{
 
     public User(String name, String password) {
         this.name = name;
-        this.password = password;
+        this.password = cryptPassword(password);
     }
 
     public String getName() {
@@ -59,7 +59,7 @@ public class User extends Figure{
     
     
     public boolean isPassword(String password){
-        return this.password.equals(cryptPassword(password));
+        return this.password.equals(password);
     }
     public boolean isCryptPassword(String password){
         return this.password.equals(cryptPassword(password));
@@ -70,7 +70,7 @@ public class User extends Figure{
     }
     
     public boolean equals(Login l){
-        return ( this.getName().equals(l.getUsername()) && this.isCryptPassword(l.getPassword()) );
+        return ( this.getName().equals(l.getUsername()) && this.isPassword(l.getPassword()) );
     }
     
     /**

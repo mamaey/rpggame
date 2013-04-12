@@ -34,9 +34,9 @@ public class LoginDialog extends JDialog{
     private JButton btnLogin;
     private JButton btnCancel;
     private boolean succeeded;
-    private MapEditor editor;
+    private MapEditorUI editor;
  
-    public LoginDialog(MapEditor parent) {
+    public LoginDialog(MapEditorUI parent) {
         super(parent, "Login", true);
         editor = parent;
         //
@@ -95,6 +95,11 @@ public class LoginDialog extends JDialog{
                         tfUsername.setText("");
                         pfPassword.setText("");
                         succeeded = false;
+                        try {
+                            editor.client.logout();
+                        } catch (Exception ex) {
+                            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 } else {
                     JOptionPane.showMessageDialog(LoginDialog.this,

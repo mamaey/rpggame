@@ -4,17 +4,38 @@
  */
 package rpggame.mapeditor;
 
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import rpggame.models.User;
+import rpggame.net.client.MapeditorClient;
+
 /**
  *
  * @author Andre
  */
 public class MapEditorUI extends javax.swing.JFrame {
-
+    public MapeditorClient client;
+    public User user;
     /**
      * Creates new form MapEditorUI
      */
-    public MapEditorUI() {
+    public MapEditorUI() throws UnknownHostException, IOException {
+        this.client = new MapeditorClient();
+        LoginDialog loginDlg = new LoginDialog(this);
+        loginDlg.setVisible(true);
         initComponents();
+        if(user!=null && user.isPrivilegMapeditor()){
+            this.setVisible(true);
+        }
+        else
+        {
+            close();
+        }
+        
     }
 
     /**
@@ -70,7 +91,10 @@ public class MapEditorUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void close() {
+            WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+            Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
+    }
     /**
      * @param args the command line arguments
      */
@@ -101,7 +125,13 @@ public class MapEditorUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MapEditorUI().setVisible(true);
+                try {
+                    new MapEditorUI();
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(MapEditorUI.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MapEditorUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
