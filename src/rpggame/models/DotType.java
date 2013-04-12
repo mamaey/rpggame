@@ -1,5 +1,5 @@
 
-package rpggame.mapeditor;
+package rpggame.models;
 
 /**
  *

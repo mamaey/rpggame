@@ -2,32 +2,26 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package rpggame.mapeditor;
+package rpggame.models;
+
+import java.awt.Color;
 
 /**
  *
  * @author Andre
  */
 public class Dot {
-    private int x, y, length, height, colour;
+    private int length, height;
+    private Color colour;
     private DotType dotType;
     
-    public Dot(int x,int y,int length,int height, int colour, DotType dotType) {
-        this.x = x;
-        this.y = y;
+    public Dot(int length,int height, Color colour, DotType dotType) {
         this.length = length;
         this.height = height;
         this.colour = colour;
         this.dotType = dotType;
     }
     
-    public int getX () {
-        return x;
-    }
-    
-    public int getY () {
-        return y;
-    }
     
     public int getLength () {
         return length;
@@ -37,11 +31,11 @@ public class Dot {
         return height;
     }
     
-    public int getColour () {
+    public Color getColour () {
         return colour;
     }
     
-    public void setColour(int colour) {
+    public void setColour(Color colour) {
         this.colour = colour;
     }
     

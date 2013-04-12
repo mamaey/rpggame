@@ -13,7 +13,7 @@ public class Login {
 
     public Login(String username, String password) {
         setUsername(username);
-        setPassword(password);
+        setPassword(User.cryptPassword(password));
     }
     public Login(){
         setUsername("Anonsmouse");

@@ -2,7 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package rpggame.mapeditor;
+package rpggame.models;
+
+import rpggame.models.DirectionType;
 
 
 /**
@@ -10,8 +12,10 @@ package rpggame.mapeditor;
  * @author Andre
  */
 public class Figure extends FigureBase {
-    public Figure(int x, int y) {
-        super(x, y);
+    public Figure(Map map,int x, int y) {
+        super(map, x, y);
+    }
+    public Figure(){
     }
     
     public void move(int x, int y) { //teleport
@@ -19,15 +23,15 @@ public class Figure extends FigureBase {
     }
                 
     
-    public void move(int direction) { 
+    public void move(DirectionType direction) { 
         int x, y;
         x = getX();
         y = getY();
         switch (direction) {
-            case 0 : x += 1; break; //right
-            case 1 : x -= 1; break; //left
-            case 2 : y += 1; break; //down
-            case 3 : y -= 1; break; //up
+            case RIGHT : x += 1; break; //right
+            case LEFT : x -= 1; break; //left
+            case DOWN : y += 1; break; //down
+            case UP : y -= 1; break; //up
         }
         setXY(x,y);
     }

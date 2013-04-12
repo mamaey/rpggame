@@ -14,6 +14,7 @@ import javax.xml.bind.JAXBException;
 import rpggame.models.Messages;
 import rpggame.models.Connection;
 import rpggame.models.Login;
+import rpggame.models.User;
 import rpggame.net.Xml;
 
 public class ClientThread extends Thread{
@@ -80,12 +81,13 @@ public class ClientThread extends Thread{
                             try {
                                 lastmsg=in.readLine();
                                 Login loginObj = Xml.<Login>getObj(Login.class,lastmsg);
-                                if(loginObj.getUsername().charAt(0)==loginObj.getPassword().charAt(0)){
-                                    send(Connection.Boolean.True.name());
+                                User user = new User(loginObj.getUsername(),loginObj.getPassword());
+                                if(user.equals(loginObj)){                                    
+                                    send(Xml.<User>getXML(user));
                                     login = true;
                                     log +=" AGREE";
                                 }else{
-                                    send(Connection.Boolean.False.name());
+                                    send(Xml.<User>getXML(null));
                                     log +=" DISAGREE";
                                     login = false;
                                 }

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package rpggame.mapeditor;
+package rpggame.models;
 
 
 /**
@@ -18,11 +18,23 @@ public class FigureBase {
     private int x,y;
     private double health;
     private FigureType figureType;
+    private Map map;
     
-    public FigureBase (int x, int y) {
+    public FigureBase (Map map, int x, int y) {
+        this.map = map;
         this.x = x;
         this.y = y;
         this.health = MAXHEALTH;
+    }
+    public FigureBase () {
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
     
     public int getX() {
