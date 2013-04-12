@@ -39,6 +39,7 @@ public class CacheDB {
         userList.add(new User("phiso", "iso", mapList.get(0), 2, 2));
         userList.add(new User("andre", "test", mapList.get(0), 2, 2));
         for(User user:userList){
+            if(!user.getName().equalsIgnoreCase("mamaey"))
             user.setPrivilegMapeditor(true);
         }
     }
