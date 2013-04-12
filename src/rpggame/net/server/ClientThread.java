@@ -101,6 +101,7 @@ public class ClientThread extends Thread{
                                 login = false;
                                 Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
                             }
+                            send(Connection.Command.END.name());
                             break;
                         case LOGOUT:
                             login = false;
@@ -110,6 +111,39 @@ public class ClientThread extends Thread{
                             send("ByBy");
                             disconnect();
                             log +=" CLOSED";
+                            break;
+                        case MAP:
+                            lastmsg=in.readLine();
+                            try {
+                                send(Xml.<Map>getXML(cacheDB.getMap(Integer.parseInt(lastmsg))));
+                            } catch (JAXBException ex) {
+                                Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            send(Connection.Command.END.name());
+                            break;
+                        case MAPLIST:
+                            for(Map m: cacheDB.getMapList()){
+                                try {
+                                    send(Xml.<Map>getXML(m));
+                                } catch (JAXBException ex) {
+                                    Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                            send(Connection.Command.END.name());
+                            break;
+                        case MAPEDIT:
+                            Map m;
+                            lastmsg = in.readLine();
+                            while(!lastmsg.contains(Connection.Command.END.name()))
+                            {
+                                try {
+                                    m = Xml.<Map>getObj(Map.class,lastmsg);
+                                    cacheDB.setMap(m);
+                                } catch (JAXBException ex) {
+                                    Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                lastmsg = in.readLine();
+                            }
                             break;
                     }
                     System.out.println(log);

@@ -8,7 +8,7 @@ public class Connection {
     private double version;
     private int id;
     
-    public static enum Command {DISCONNECT,LOGIN,VERSION,LOGOUT;}
+    public static enum Command {DISCONNECT,LOGIN,VERSION,LOGOUT,END,MAPEDIT,MAP, MAPLIST;}
     public static enum Boolean {True,False;}
     
     public Connection(int id, double version){

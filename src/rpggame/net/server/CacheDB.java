@@ -49,7 +49,14 @@ public class CacheDB {
     public void setUserList(ArrayList<User> userList) {
         this.userList = userList;
     }
-    
+    public Map getMap(int id){
+        for(Map m:mapList)
+        {
+            if(m.getId() == id)
+                return m;
+        }
+        return null;
+    }
     public User getUser(Login login){
         for(User user:userList)
         {
@@ -57,6 +64,20 @@ public class CacheDB {
                 return user;
         }
         return null;
+    }
+
+    void setMap(Map m) {
+        boolean found=false;
+        for(int i=0;i<mapList.size();i++)
+        {
+            if(mapList.get(i).getId()==m.getId()){
+                found = true;
+                mapList.set(i, m);
+                
+            }
+        }
+        if(!found)
+            mapList.add(m);
     }
     
 }

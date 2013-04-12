@@ -25,13 +25,14 @@ public abstract class Client extends Thread{
     
     private Socket s;
     private BufferedWriter out;
-    private BufferedReader in;
+    protected BufferedReader in;
     private boolean flag;
     
     private String lastmsg;
     private Connection conn;
     
     private boolean login;
+    protected User user;
     
     public Client() throws UnknownHostException, IOException{
         s = new Socket("localhost",1234);
@@ -58,22 +59,25 @@ public abstract class Client extends Thread{
             throw new IOException("No connection!");
         }
     }
-    private void send(String str) throws IOException{
+    protected void send(String str) throws IOException{
         out.write(str);
         out.newLine();
         out.flush();
     }
     public User login(String username, String password) throws IOException, Exception{
-        User user = null;
+        user = null;
         if(login)
             throw new Exception("Already Login!");
         try{
             send(Connection.Command.LOGIN.name());
             send(Xml.<Login>getXML(new Login(username,password)));
-            user = Xml.<User>getObj(User.class,in.readLine());
-            if(user !=null){
-                login=true;
-                return user;
+            lastmsg = in.readLine();
+            while(!lastmsg.contains(Connection.Command.END.name())){
+                user = Xml.<User>getObj(User.class,lastmsg);
+                if(user !=null){
+                    login=true;
+                    return user;
+                }
             }
         } catch (JAXBException ex) {
             throw new IOException("Connection Problem!");
