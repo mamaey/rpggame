@@ -135,7 +135,7 @@ public class ClientThread extends Thread{
                         case MAPEDIT:
                             Map m;
                             lastmsg = in.readLine();
-                            while(!lastmsg.contains(Connection.Command.END.name()))
+                            while(!lastmsg.equals(Connection.Command.END.name()))
                             {
                                 try {
                                     m = Xml.<Map>getObj(Map.class,lastmsg);

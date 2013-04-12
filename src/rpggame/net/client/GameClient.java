@@ -32,7 +32,7 @@ public class GameClient extends MainClient{
             User user = c.login("mamaey","martin");
             if(user!=null){
                 System.out.println("Login erfolgreich!");
-                System.out.println(user.getMap());
+                System.out.println(user.getMap().getId());
                 System.out.println(user.getX());
                 System.out.println(user.getY());
             }
