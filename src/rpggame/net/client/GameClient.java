@@ -29,7 +29,7 @@ public class GameClient extends MainClient{
     public static void main(String[] args){
         try {
             GameClient c = new GameClient();
-            User user = c.login("martin","mueller");
+            User user = c.login("mamaey","martin");
             if(user!=null){
                 System.out.println("Login erfolgreich!");
                 System.out.println(user.getMap());

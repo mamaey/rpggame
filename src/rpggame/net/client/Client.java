@@ -72,12 +72,16 @@ public abstract class Client extends Thread{
             send(Connection.Command.LOGIN.name());
             send(Xml.<Login>getXML(new Login(username,password)));
             lastmsg = in.readLine();
-            while(!lastmsg.contains(Connection.Command.END.name())){
+            while(!lastmsg.equals(Connection.Command.END.name())){
                 user = Xml.<User>getObj(User.class,lastmsg);
                 if(user !=null){
                     login=true;
-                    return user;
                 }
+                lastmsg = in.readLine();
+                System.out.println(lastmsg);
+            }
+            if(user !=null && login){
+                return user;
             }
         } catch (JAXBException ex) {
             throw new IOException("Connection Problem!");
@@ -90,7 +94,7 @@ public abstract class Client extends Thread{
         if(!login)
             throw new Exception("Not Logged in!");
         send(Connection.Command.LOGOUT.name());
-        if(!(in.readLine().equalsIgnoreCase(Connection.Boolean.True.name())))
+        if(!(in.readLine().equals(Connection.Boolean.True.name())))
             throw new Exception("ERROR Serverside!");    
         login = false;
     }

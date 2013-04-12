@@ -32,6 +32,7 @@ public class ClientThread extends Thread{
     private boolean flag;
     private boolean login;
     private CacheDB cacheDB;
+    private User user;
     
     public ClientThread(Socket s, List<ClientThread> clientList, CacheDB cacheDB) throws IOException{
         this.s = s;
@@ -87,13 +88,12 @@ public class ClientThread extends Thread{
                             try {
                                 lastmsg=in.readLine();
                                 Login loginObj = Xml.<Login>getObj(Login.class,lastmsg);
-                                User user = cacheDB.getUser(loginObj);
-                                if(user.equals(loginObj)){                                    
+                                user = cacheDB.getUser(loginObj);
+                                if(user!=null && user.equals(loginObj)){
                                     send(Xml.<User>getXML(user));
                                     login = true;
                                     log +=" AGREE";
                                 }else{
-                                    send(Xml.<User>getXML(null));
                                     log +=" DISAGREE";
                                     login = false;
                                 }
@@ -105,6 +105,7 @@ public class ClientThread extends Thread{
                             break;
                         case LOGOUT:
                             login = false;
+                            user = null;
                             send(Connection.Boolean.True.name());
                             break;
                         case DISCONNECT:
