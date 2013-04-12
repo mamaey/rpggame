@@ -74,7 +74,7 @@ public class MapeditorClient extends MainClient{
                 System.out.println(user.getX());
                 System.out.println(user.getY());
                 if(user.isPrivilegMapeditor()){
-                    Map m = user.getMap();
+                    Map m = c.getMap(user.getMap().getId());
                     m.setName("First");
                     //überschreiben Test
                     c.setMap(m);

@@ -5,8 +5,9 @@
 package rpggame.models;
 
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -36,7 +37,8 @@ public class FigureBase {
     public Map getMap() {
         return map;
     }
-    @XmlElement
+    @XmlJavaTypeAdapter(MapAdapter.class)
+    @XmlAttribute
     public void setMap(Map map) {
         this.map = map;
     }
@@ -84,6 +86,16 @@ public class FigureBase {
         return figureType;
     }
     
-    
-    
+}
+class MapAdapter extends XmlAdapter<String,Map> {
+    @Override
+    public Map unmarshal(String s) {
+      Map map = new Map();
+      map.setId(Integer.parseInt(s));
+      return map;
+    }
+    @Override
+    public String marshal(Map c) {
+      return ""+c.getId();
+    }
 }

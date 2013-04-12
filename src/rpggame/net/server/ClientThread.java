@@ -123,11 +123,13 @@ public class ClientThread extends Thread{
                             send(Connection.Command.END.name());
                             break;
                         case MAPLIST:
-                            for(Map m: cacheDB.getMapList()){
-                                try {
-                                    send(Xml.<Map>getXML(m));
-                                } catch (JAXBException ex) {
-                                    Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                            if(user.isPrivilegMapeditor()){
+                                for(Map m: cacheDB.getMapList()){
+                                    try {
+                                        send(Xml.<Map>getXML(m));
+                                    } catch (JAXBException ex) {
+                                        Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
                                 }
                             }
                             send(Connection.Command.END.name());
@@ -138,8 +140,10 @@ public class ClientThread extends Thread{
                             while(!lastmsg.equals(Connection.Command.END.name()))
                             {
                                 try {
-                                    m = Xml.<Map>getObj(Map.class,lastmsg);
-                                    cacheDB.setMap(m);
+                                    if(user.isPrivilegMapeditor()){
+                                        m = Xml.<Map>getObj(Map.class,lastmsg);
+                                        cacheDB.setMap(m);
+                                    }
                                 } catch (JAXBException ex) {
                                     Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
                                 }
