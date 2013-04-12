@@ -1,5 +1,6 @@
 package rpggame.net.server;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -13,7 +14,10 @@ import javax.xml.bind.JAXBException;
 
 import rpggame.models.Messages;
 import rpggame.models.Connection;
+import rpggame.models.Dot;
+import rpggame.models.DotType;
 import rpggame.models.Login;
+import rpggame.models.Map;
 import rpggame.models.User;
 import rpggame.net.Xml;
 
@@ -27,9 +31,11 @@ public class ClientThread extends Thread{
     private static int idsetter=0;
     private boolean flag;
     private boolean login;
+    private CacheDB cacheDB;
     
-    public ClientThread(Socket s, List<ClientThread> clientList) throws IOException{
+    public ClientThread(Socket s, List<ClientThread> clientList, CacheDB cacheDB) throws IOException{
         this.s = s;
+        this.cacheDB = cacheDB;
         idsetter++;
         this.id = idsetter;
         this.clientList = clientList;
@@ -81,7 +87,7 @@ public class ClientThread extends Thread{
                             try {
                                 lastmsg=in.readLine();
                                 Login loginObj = Xml.<Login>getObj(Login.class,lastmsg);
-                                User user = new User(loginObj.getUsername(),loginObj.getPassword());
+                                User user = cacheDB.getUser(loginObj);
                                 if(user.equals(loginObj)){                                    
                                     send(Xml.<User>getXML(user));
                                     login = true;
@@ -107,25 +113,9 @@ public class ClientThread extends Thread{
                             break;
                     }
                     System.out.println(log);
-                    /*
-                    Messages msg = new Messages();
-                    msg.setMsg(lastmsg);
-                    msg.setId(id);
-                    msg.setFrom('c');
-                    try {
-                        lastmsg = ;
-
-                    for(ClientThread c: clientList){
-                        writer = c.getWriter();
-                        if(id != c.getID()){
-                            writer.write(                        writer.write());
-                            writer.newLine();
-                            writer.flush();
-                        }
-                    }*/
                 }else{
                     try {
-                        this.sleep(10);
+                        sleep(10);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
