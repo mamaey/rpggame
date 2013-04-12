@@ -25,13 +25,14 @@ public abstract class Client extends Thread{
     
     private Socket s;
     private BufferedWriter out;
-    private BufferedReader in;
+    protected BufferedReader in;
     private boolean flag;
     
     private String lastmsg;
     private Connection conn;
     
     private boolean login;
+    protected User user;
     
     public Client() throws UnknownHostException, IOException{
         s = new Socket("localhost",1234);
@@ -58,21 +59,28 @@ public abstract class Client extends Thread{
             throw new IOException("No connection!");
         }
     }
-    private void send(String str) throws IOException{
+    protected void send(String str) throws IOException{
         out.write(str);
         out.newLine();
         out.flush();
     }
     public User login(String username, String password) throws IOException, Exception{
-        User user = null;
+        user = null;
         if(login)
             throw new Exception("Already Login!");
         try{
             send(Connection.Command.LOGIN.name());
             send(Xml.<Login>getXML(new Login(username,password)));
-            user = Xml.<User>getObj(User.class,in.readLine());
-            if(user !=null){
-                login=true;
+            lastmsg = in.readLine();
+            while(!lastmsg.equals(Connection.Command.END.name())){
+                user = Xml.<User>getObj(User.class,lastmsg);
+                if(user !=null){
+                    login=true;
+                }
+                lastmsg = in.readLine();
+                System.out.println(lastmsg);
+            }
+            if(user !=null && login){
                 return user;
             }
         } catch (JAXBException ex) {
@@ -86,7 +94,7 @@ public abstract class Client extends Thread{
         if(!login)
             throw new Exception("Not Logged in!");
         send(Connection.Command.LOGOUT.name());
-        if(!(in.readLine().equalsIgnoreCase(Connection.Boolean.True.name())))
+        if(!(in.readLine().equals(Connection.Boolean.True.name())))
             throw new Exception("ERROR Serverside!");    
         login = false;
     }

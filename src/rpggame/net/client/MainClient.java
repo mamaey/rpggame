@@ -8,9 +8,15 @@ import java.awt.Color;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.bind.JAXBException;
+import rpggame.models.Connection;
 import rpggame.models.Dot;
 import rpggame.models.DotType;
 import rpggame.models.Map;
+import rpggame.net.Xml;
 
 /**
  *
@@ -26,11 +32,19 @@ public abstract class MainClient extends Client{
     public MainClient(Socket s) throws IOException{
         super(s);
     }
-    public Map getMap(int id){
+    public Map getMap(int id) throws IOException{
         Map m = new Map();
-        m.setId(id);
-        m.setDimision(32, 32, 5, 5);
-        m.fillMap(new Dot(m.getDotHeight(),m.getDotLength(), Color.BLACK, DotType.dtWalkOn));
+        send(Connection.Command.MAP.name());
+        send(""+id);
+        try {
+            String lastmsg = in.readLine();
+            while(!lastmsg.contains(Connection.Command.END.name())){
+                m = Xml.<Map>getObj(Map.class,lastmsg);
+                lastmsg = in.readLine();
+            }
+        } catch (JAXBException ex) {
+            throw new IOException("Cound not load Map");
+        }        
         return m;
     }
 }

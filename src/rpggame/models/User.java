@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class User extends Figure{
     String name, password;
+    boolean privilegMapeditor;
 
     public User(String name, String password, Map map, int x, int y) {
         super(map, x, y);
@@ -45,6 +46,17 @@ public class User extends Figure{
     public String getPassword(){
         return password;
     }
+
+    public boolean isPrivilegMapeditor() {
+        return privilegMapeditor;
+    }
+
+    @XmlAttribute
+    public void setPrivilegMapeditor(boolean privilegMapeditor) {
+        this.privilegMapeditor = privilegMapeditor;
+    }
+    
+    
     
     public boolean isPassword(String password){
         return this.password.equals(cryptPassword(password));

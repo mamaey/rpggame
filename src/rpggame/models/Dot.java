@@ -7,6 +7,8 @@ package rpggame.models;
 import java.awt.Color;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
@@ -49,6 +51,8 @@ public class Dot {
     public Color getColour () {
         return colour;
     }
+    
+    @XmlJavaTypeAdapter(ColorAdapter.class)
     @XmlAttribute
     public void setColour(Color colour) {
         this.colour = colour;
@@ -64,4 +68,12 @@ public class Dot {
     }
     
 }
+class ColorAdapter extends XmlAdapter<String,Color> {
+  public Color unmarshal(String s) {
+    return new Color(Integer.parseInt(s),true);
+  }
+  public String marshal(Color c) {
+    return ""+c.getRGB();
+  }
 
+}
