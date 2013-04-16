@@ -67,7 +67,7 @@ public class MapeditorClient extends MainClient{
     public static void main(String[] args){
             try {
             MapeditorClient c = new MapeditorClient();
-            User user = c.login("mamaey","martin");
+            User user = c.login("phiso","iso");
             if(user!=null){
                 System.out.println("Login erfolgreich!");
                 System.out.println(user.getMap().getId());
@@ -78,7 +78,7 @@ public class MapeditorClient extends MainClient{
                     m.setName("First");
                     //überschreiben Test
                     c.setMap(m);
-                    m= new Map(5,5,5,5);
+                    m= new Map(10, 10, 10, 10);
                     m.setName("Secound");
                     m.fillMap(new Dot(m.getDotHeight(), m.getDotLength(), Color.red, DotType.dtWalkOn));
                     //hinzufüegen Test

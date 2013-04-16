@@ -25,21 +25,27 @@ public class ClientThread extends Thread{
     private Socket s;
     private BufferedWriter out;
     private BufferedReader in;
-    private List<ClientThread> clientList;
+    
+    private static List<ClientThread> clientList;
+    private static int idsetter=0;
+    private static CacheDB cacheDB;
+    
     private String lastmsg,log;
     private int id;
-    private static int idsetter=0;
+
     private boolean flag;
     private boolean login;
-    private CacheDB cacheDB;
+
     private User user;
     
     public ClientThread(Socket s, List<ClientThread> clientList, CacheDB cacheDB) throws IOException{
         this.s = s;
-        this.cacheDB = cacheDB;
+        if(this.cacheDB == null)
+            this.cacheDB = cacheDB;
+        if(this.clientList==null)
+            this.clientList = clientList;
         idsetter++;
         this.id = idsetter;
-        this.clientList = clientList;
         flag=true;
         login=false;
         in = new BufferedReader(new InputStreamReader(s.getInputStream()));

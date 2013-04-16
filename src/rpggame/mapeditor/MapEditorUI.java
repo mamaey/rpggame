@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.colorchooser.ColorSelectionModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import rpggame.models.DotType;
+import rpggame.models.Map;
 import rpggame.models.User;
 import rpggame.net.client.MapeditorClient;
 
@@ -30,6 +35,7 @@ public class MapEditorUI extends javax.swing.JFrame {
         initComponents();
         if(user!=null && user.isPrivilegMapeditor()){
             this.setVisible(true);
+            loadEditor();
         }
         else
         {
@@ -37,7 +43,26 @@ public class MapEditorUI extends javax.swing.JFrame {
         }
         
     }
-
+    private void loadMap(){
+        Map map = (Map)jListMap.getSelectedValue();
+        mappanel.setMap(map);
+        
+    }
+    private void setDot(){
+        mappanel.setDot(jColorChooser1.getColor(),DotType.dtWalkOn);
+    }
+    private void loadEditor() throws IOException{
+        mappanel = new MapPanel(client);
+        jScrollPane2.setViewportView(mappanel);
+        pack();
+        loadMapList();
+    }
+    private void loadMapList() throws IOException{
+        Map[] maps = client.getMapList();
+        jListMap.setListData(maps);
+        for(Map map: maps)
+            System.out.println(map.getId()+":"+map.getName());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,26 +72,48 @@ public class MapEditorUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jSplitPane2 = new javax.swing.JSplitPane();
+        jColorChooser1 = new javax.swing.JColorChooser();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jListMap = new javax.swing.JList();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        jSplitPane2.setLeftComponent(jColorChooser1);
+        ColorSelectionModel model = jColorChooser1.getSelectionModel();
+        ChangeListener changeListener = new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent) {
+                loadMap();
+                setDot();
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        };
+        model.addChangeListener(changeListener);
+
+        jListMap.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jListMap.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListMap.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListMapMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jListMap);
+
+        jSplitPane2.setRightComponent(jScrollPane3);
+
+        jSplitPane1.setLeftComponent(jSplitPane2);
+        jSplitPane1.setRightComponent(jScrollPane2);
+
+        getContentPane().add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -76,21 +123,12 @@ public class MapEditorUI extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jListMapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMapMouseClicked
+        loadMap();
+    }//GEN-LAST:event_jListMapMouseClicked
     public void close() {
             WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
             Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
@@ -136,10 +174,15 @@ public class MapEditorUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JColorChooser jColorChooser1;
+    private javax.swing.JList jListMap;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane jSplitPane2;
     // End of variables declaration//GEN-END:variables
+    private MapPanel mappanel;
 }
