@@ -78,6 +78,12 @@ public class MapEditorUI extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jListMap = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
+        jToolBar1 = new javax.swing.JToolBar();
+        jButtonSave = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        jLabel1 = new javax.swing.JLabel();
+        jSlider1 = new javax.swing.JSlider();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -115,6 +121,36 @@ public class MapEditorUI extends javax.swing.JFrame {
 
         getContentPane().add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
+        jToolBar1.setRollover(true);
+
+        jButtonSave.setText("Save");
+        jButtonSave.setFocusable(false);
+        jButtonSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonSave.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButtonSave);
+
+        jButton1.setText("rename");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton1);
+        jToolBar1.add(jSeparator1);
+
+        jLabel1.setText("Zoom");
+        jToolBar1.add(jLabel1);
+
+        jSlider1.setMaximum(200);
+        jSlider1.setPaintLabels(true);
+        jSlider1.setValue(100);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
+        jToolBar1.add(jSlider1);
+
+        getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_START);
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -129,6 +165,10 @@ public class MapEditorUI extends javax.swing.JFrame {
     private void jListMapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMapMouseClicked
         loadMap();
     }//GEN-LAST:event_jListMapMouseClicked
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        mappanel.setZoom(jSlider1.getValue()/100.0);
+    }//GEN-LAST:event_jSlider1StateChanged
     public void close() {
             WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
             Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
@@ -174,15 +214,21 @@ public class MapEditorUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonSave;
     private javax.swing.JColorChooser jColorChooser1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList jListMap;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JSlider jSlider1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
     private MapPanel mappanel;
 }

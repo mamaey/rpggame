@@ -28,6 +28,7 @@ public class MapPanel extends javax.swing.JPanel {
      */
     private Map map;
     private Dot dot;
+    private double zoom=1;
     private static Client c;
     
     public MapPanel(Client c) {
@@ -58,10 +59,25 @@ public class MapPanel extends javax.swing.JPanel {
     public Map getMap(){
         return map;
     }
-    private void loadMap(){
-        Dimension d = new Dimension(map.getMapLength()*map.getDotLength(), map.getMapHeight()*map.getDotHeight());
+    private void setSize(){
+        Dimension d = new Dimension((int)(zoom*map.getMapLength()*map.getDotLength()), (int)(zoom*map.getMapHeight()*map.getDotHeight()));
         setSize(d);
         jTable1.setSize(d);
+        jTable1.setRowHeight((int)(zoom*map.getDotHeight()));
+        TableColumn column;
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            column = jTable1.getColumnModel().getColumn(i);
+            column.setPreferredWidth((int)(zoom*map.getDotLength()));
+        }
+    }
+    public void setZoom(double zoom){
+        this.zoom=zoom;
+        if(map!=null){
+            setSize();
+            jTable1.repaint();
+        }
+   }
+    private void loadMap(){
         DefaultTableModel tableModel = new DefaultTableModel() {
             @Override
             public int getRowCount() { return map.getMapHeight(); }
@@ -72,18 +88,9 @@ public class MapPanel extends javax.swing.JPanel {
             @Override
             public boolean isCellEditable(int row, int column) { return false; }
         };
-
         jTable1.setModel(tableModel);
-        System.out.println(map.getMapHeight()+":"+jTable1.getRowCount());
-        System.out.println(map.getMapLength()+":"+jTable1.getColumnCount());
-        jTable1.setRowHeight(map.getDotHeight());
-        TableColumn column = null;
-        for (int i = 0; i < jTable1.getColumnCount(); i++) {
-            column = jTable1.getColumnModel().getColumn(i);
-            column.setPreferredWidth(map.getDotLength());
-        }
-
-        jTable1.revalidate();
+        setSize();
+        jTable1.repaint();
     }
     private void eventDot(){
         int[] x = jTable1.getSelectedColumns();
