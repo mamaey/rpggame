@@ -18,7 +18,7 @@ public class MapTableRenderer extends DefaultTableCellRenderer{
     public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column) 
 { 
     Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
-    c.setBackground(map[row][column].getColour());
+    c.setBackground(map[column][row].getColour());
 
     return c; 
 } 

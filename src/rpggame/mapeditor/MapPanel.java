@@ -5,8 +5,13 @@
 package rpggame.mapeditor;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import rpggame.models.Dot;
 import rpggame.models.DotType;
 import rpggame.models.Map;
@@ -54,7 +59,30 @@ public class MapPanel extends javax.swing.JPanel {
         return map;
     }
     private void loadMap(){
-        jTable1.setSize(map.getMapLength(), map.getMapHeight());
+        Dimension d = new Dimension(map.getMapLength()*map.getDotLength(), map.getMapHeight()*map.getDotHeight());
+        setSize(d);
+        jTable1.setSize(d);
+        DefaultTableModel tableModel = new DefaultTableModel() {
+            @Override
+            public int getRowCount() { return map.getMapHeight(); }
+            @Override
+            public int getColumnCount() { return map.getMapLength(); }
+            @Override
+            public Object getValueAt(int row, int col) {return "";}
+            @Override
+            public boolean isCellEditable(int row, int column) { return false; }
+        };
+
+        jTable1.setModel(tableModel);
+        System.out.println(map.getMapHeight()+":"+jTable1.getRowCount());
+        System.out.println(map.getMapLength()+":"+jTable1.getColumnCount());
+        jTable1.setRowHeight(map.getDotHeight());
+        TableColumn column = null;
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            column = jTable1.getColumnModel().getColumn(i);
+            column.setPreferredWidth(map.getDotLength());
+        }
+
         jTable1.revalidate();
     }
     private void eventDot(){
@@ -63,6 +91,7 @@ public class MapPanel extends javax.swing.JPanel {
         for(int xs:x)
             for(int ys:y)
                 map.getMap()[xs][ys]=dot;
+        jTable1.repaint();
         
         
     }
@@ -95,9 +124,9 @@ public class MapPanel extends javax.swing.JPanel {
         jTable1.setCellSelectionEnabled(true);
         MapTableRenderer myRenderer = new MapTableRenderer();
         jTable1.setDefaultRenderer(Object.class, myRenderer);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jTable1MouseReleased(evt);
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                eventDot();
             }
         });
         add(jTable1, java.awt.BorderLayout.CENTER);
@@ -105,10 +134,6 @@ public class MapPanel extends javax.swing.JPanel {
         jLabel1.setText("Bitte wählen Sie eine Map!");
         add(jLabel1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
-        eventDot();
-    }//GEN-LAST:event_jTable1MouseReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

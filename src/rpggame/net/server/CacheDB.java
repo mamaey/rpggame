@@ -33,6 +33,7 @@ public class CacheDB {
     public void testData(){
         Map map = new Map(32, 32, 32, 32);
         map.fillMap(new Dot(map.getDotLength(), map.getDotHeight(), Color.black, DotType.dtItem));
+        map.getMap()[1][1]=new Dot(map.getDotLength(), map.getDotHeight(), Color.green, DotType.dtItem);
         map.setId(1);
         mapList.add(map);
         userList.add(new User("mamaey", "martin", mapList.get(0), 2, 2));
