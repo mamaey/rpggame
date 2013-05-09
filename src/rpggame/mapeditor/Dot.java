@@ -18,6 +18,7 @@ public class Dot {
         this.length = length;
         this.height = height;
         this.colour = colour;
+        this.dotType = dotType;
     }
     
     public int getX () {
