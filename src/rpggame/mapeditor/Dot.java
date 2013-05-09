@@ -12,7 +12,7 @@ public class Dot {
     private int x, y, length, height, colour;
     private DotType dotType;
     
-    public void Dot(int x,int y,int length,int height, int colour, DotType dotType) {
+    public Dot(int x,int y,int length,int height, int colour, DotType dotType) {
         this.x = x;
         this.y = y;
         this.length = length;

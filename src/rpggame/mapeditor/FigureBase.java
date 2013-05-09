@@ -19,7 +19,7 @@ public class FigureBase {
     private double health;
     private FigureType figureType;
     
-    public void FigureBase (int x, int y) {
+    public FigureBase (int x, int y) {
         this.x = x;
         this.y = y;
         this.health = MAXHEALTH;

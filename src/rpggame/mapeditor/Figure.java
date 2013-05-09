@@ -10,9 +10,8 @@ package rpggame.mapeditor;
  * @author Andre
  */
 public class Figure extends FigureBase {
-    public void Figure(int x, int y) {
-        //super(x, y); ?? why 
-        this.FigureBase(x, y);
+    public Figure(int x, int y) {
+        super(x, y);
     }
     
     public void move(int x, int y) { //teleport

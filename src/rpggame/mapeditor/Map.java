@@ -13,7 +13,7 @@ public class Map {
     int mapLength, mapHeight; //number of fields 
     int dotLength, dotHeight; //size of field (pixel,..)
     
-    public void Map(int mapLength, int mapHeight, int dotLength, int dotHeight) {
+    public Map(int mapLength, int mapHeight, int dotLength, int dotHeight) {
         this.mapLength = mapLength;
         this.mapHeight = mapHeight;
         this.dotLength = dotLength;
@@ -21,7 +21,7 @@ public class Map {
         map = new Dot[mapLength][mapHeight];
     }
     
-    public void Map(String path) {
+    public Map(String path) {
         loadMapFromFile(path);
     }
     
